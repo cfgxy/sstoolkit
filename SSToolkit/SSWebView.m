@@ -38,6 +38,9 @@
 	_delegate = nil;
 	_webView.delegate = nil;
 	[_webView stopLoading];
+	[_webView release];
+	[_lastRequest release];
+	[super dealloc];
 }
 
 
@@ -99,6 +102,7 @@
 		tempMediaPlaybackRequiresUserAction = _webView.mediaPlaybackRequiresUserAction;
 
 		[_webView removeFromSuperview];
+		[_webView release];
 	}
 
 	_webView = [[UIWebView alloc] initWithFrame:CGRectZero];
@@ -309,7 +313,9 @@
 
 
 - (void)reload {
+	[_lastRequest release];
 	_lastRequest = nil;
+    
 	[_webView reload];
 }
 
@@ -407,7 +413,8 @@
 
 	// Starting a new request
 	if ([[aRequest mainDocumentURL] isEqual:[_lastRequest mainDocumentURL]] == NO) {
-		_lastRequest = aRequest;
+		[_lastRequest release];
+		_lastRequest = [aRequest retain];
 		_testedDOM = NO;
 
 		[self _startLoading];

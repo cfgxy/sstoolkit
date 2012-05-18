@@ -25,6 +25,7 @@
 	}];
 	
 	animation.values = values;
+	[values release];
 	
 	if (delegate) {
 		animation.delegate = self;
@@ -80,7 +81,9 @@
 		
 		[keyTimesAsPercent addObject:[NSNumber numberWithFloat:1.0f]];
 		
-		animation.keyTimes = keyTimesAsPercent;		
+		animation.keyTimes = keyTimesAsPercent;
+		[keyTimesAsPercent release];
+		
 		animation.duration = totalDuration;
 	}
 	

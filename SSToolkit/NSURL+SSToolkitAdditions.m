@@ -17,7 +17,10 @@
 	NSString *string = [[NSString alloc] initWithFormat:format arguments:arguments];
 	va_end(arguments);
 	
-	return [NSURL URLWithString:string];
+	NSURL *url = [NSURL URLWithString:string];
+	[string release];
+	
+	return url;
 }
 
 

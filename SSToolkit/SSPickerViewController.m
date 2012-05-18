@@ -25,6 +25,14 @@
 }
 
 
+- (void)dealloc {
+	[_keys release];
+	[_selectedKey release];
+	[_currentIndexPath release];
+    [super dealloc];
+}
+
+
 #pragma mark - UIViewController Methods
 
 - (void)viewDidLoad {
@@ -86,7 +94,7 @@
 
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier] autorelease];
     }
 	id key = [self.keys objectAtIndex:indexPath.row];
 	cell.textLabel.text = [self cellTextForKey:key];

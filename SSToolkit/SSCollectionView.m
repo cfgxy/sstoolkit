@@ -77,21 +77,29 @@ static NSString *kSSCollectionViewSectionItemSizeKey = @"SSCollectionViewSection
 	self.delegate = nil;
 	
 	[_visibleItems removeAllObjects];
+	[_visibleItems release];
 	_visibleItems = nil;
 	
 	[_reuseableItems removeAllObjects];
+	[_reuseableItems release];
 	_reuseableItems = nil;
 	
 	_tableView.dataSource = nil;
 	_tableView.delegate = nil;
+	[_tableView release];
 	
 	[_sectionCache removeAllObjects];
+	[_sectionCache release];
 	_sectionCache = nil;
 	
 	[_updates removeAllObjects];
+	[_updates release];
 	_updates = nil;
 	
+	[_rowBackgroundColor release];
 	_rowBackgroundColor = nil;
+	
+	[super dealloc];
 }
 
 
@@ -141,11 +149,11 @@ static NSString *kSSCollectionViewSectionItemSizeKey = @"SSCollectionViewSection
 		return nil;
 	}
 	
-	SSCollectionViewItem *item = [items lastObject];
+	SSCollectionViewItem *item = [[items lastObject] retain];
 	[items removeObject:item];
 	
 	[item prepareForReuse];
-	return item;
+	return [item autorelease];
 }
 
 
@@ -240,7 +248,7 @@ static NSString *kSSCollectionViewSectionItemSizeKey = @"SSCollectionViewSection
 	for (SSCollectionViewItem *item in _visibleItems) {
 		[indexPaths addObject:[self indexPathForItem:item]];
 	}
-	return indexPaths;
+	return [indexPaths autorelease];
 }
 
 
@@ -394,7 +402,9 @@ static NSString *kSSCollectionViewSectionItemSizeKey = @"SSCollectionViewSection
 			}
 		}
 	}
-		
+	
+	[sections release];
+	
 	// Apply updates
 	[_tableView endUpdates];
 	
@@ -471,7 +481,8 @@ static NSString *kSSCollectionViewSectionItemSizeKey = @"SSCollectionViewSection
 			[rowIndexPaths addObject:rowIndexPath];
 		}
 	}];
-	[_tableView reloadRowsAtIndexPaths:rowIndexPaths withRowAnimation:UITableViewRowAnimationFade];
+	[_tableView reloadRowsAtIndexPaths:rowIndexPaths withRowAnimation:UITableViewRowAnimationFade];	
+	[rowIndexPaths release];
 }
 
 
@@ -644,7 +655,7 @@ static NSString *kSSCollectionViewSectionItemSizeKey = @"SSCollectionViewSection
 	NSUInteger startIndex = itemsPerRow * row;
 	NSUInteger endIndex = (NSUInteger)fmin(totalItems, startIndex + itemsPerRow);
 	
-	NSMutableArray *items = [[NSMutableArray alloc] initWithCapacity:endIndex - startIndex];
+	NSMutableArray *items = [[[NSMutableArray alloc] initWithCapacity:endIndex - startIndex] autorelease];
 	
 	for (NSUInteger i = startIndex; i < endIndex; i++) {
 		NSIndexPath *itemIndexPath = [NSIndexPath indexPathForRow:i inSection:rowIndexPath.section];
@@ -755,6 +766,7 @@ static NSString *kSSCollectionViewSectionItemSizeKey = @"SSCollectionViewSection
 	
 	dictionary = [[NSMutableDictionary alloc] init];
 	[_sectionCache setObject:dictionary forKey:sectionKey];
+	[dictionary release];
 	
 	return dictionary;
 }
@@ -801,7 +813,7 @@ static NSString *kSSCollectionViewSectionItemSizeKey = @"SSCollectionViewSection
 	if (cellType != SSCollectionViewCellTypeRow) {
 		SSCollectionViewExtremityTableViewCell *cell = (SSCollectionViewExtremityTableViewCell *)[_tableView dequeueReusableCellWithIdentifier:extremityCellIdentifier];
 		if (!cell) {
-			cell = [[SSCollectionViewExtremityTableViewCell alloc] initWithReuseIdentifier:extremityCellIdentifier];
+			cell = [[[SSCollectionViewExtremityTableViewCell alloc] initWithReuseIdentifier:extremityCellIdentifier] autorelease];
 		}
 		
 		cell.extrimityView = [self _extremityViewForSection:rowIndexPath.section type:cellType];
@@ -812,7 +824,7 @@ static NSString *kSSCollectionViewSectionItemSizeKey = @"SSCollectionViewSection
 	// Normal row	
 	SSCollectionViewItemTableViewCell *cell = (SSCollectionViewItemTableViewCell *)[_tableView dequeueReusableCellWithIdentifier:itemCellIdentifier];
 	if (!cell) {
-		cell = [[SSCollectionViewItemTableViewCell alloc] initWithReuseIdentifier:itemCellIdentifier];
+		cell = [[[SSCollectionViewItemTableViewCell alloc] initWithReuseIdentifier:itemCellIdentifier] autorelease];
 		cell.collectionView = self;
 	}
 	

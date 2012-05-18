@@ -15,6 +15,8 @@
 
 @implementation SSCollectionViewItem {
 	SSCollectionViewItemStyle _style;
+	SSCollectionView *_collectionView;
+	NSIndexPath *_indexPath;
 }
 
 
@@ -32,7 +34,10 @@
 @synthesize collectionView = _collectionView;
 
 - (void)setBackgroundView:(UIView *)backgroundView {
+	[backgroundView retain];
+	[_backgroundView release];
 	_backgroundView = backgroundView;
+	
 	_backgroundView.hidden = _selected && _selectedBackgroundView;
 	
 	[self insertSubview:backgroundView atIndex:0];
@@ -41,7 +46,10 @@
 
 
 - (void)setSelectedBackgroundView:(UIView *)selectedBackgroundView {
-	_selectedBackgroundView = selectedBackgroundView;	
+	[selectedBackgroundView retain];
+	[_selectedBackgroundView release];
+	_selectedBackgroundView = selectedBackgroundView;
+	
 	_selectedBackgroundView.hidden = !_selected;
 	
 	if (_backgroundView) {
@@ -58,6 +66,14 @@
 
 - (void)dealloc {
 	self.collectionView = nil;
+	[_indexPath release];
+	[_imageView release];
+	[_textLabel release];
+	[_detailTextLabel release];
+	[_backgroundView release];
+	[_selectedBackgroundView release];
+	[_reuseIdentifier release];
+	[super dealloc];
 }
 
 

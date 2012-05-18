@@ -61,26 +61,44 @@
 
 
 - (void)setEmptyStarImage:(UIImage *)emptyStarImage {
+	[emptyStarImage retain];
+	[_emptyStarImage release];
 	_emptyStarImage = emptyStarImage;
+	
 	[self setNeedsDisplay];
 }
 
 
 - (void)setFilledStarImage:(UIImage *)filledStarImage {
-	_filledStarImage = filledStarImage;	
+	[filledStarImage retain];
+	[_filledStarImage release];
+	_filledStarImage = filledStarImage;
+	
 	[self setNeedsDisplay];
 }
 
 
 - (void)setStarSize:(CGSize)starSize {
 	_starSize = starSize;
+	
 	[self setNeedsDisplay];
 }
 
 
 - (void)setStarSpacing:(CGFloat)starSpacing {
 	_starSpacing = starSpacing;
+	
 	[self setNeedsDisplay];
+}
+
+
+#pragma mark - NSObject
+
+- (void)dealloc {
+	[_emptyStarImage release];
+	[_filledStarImage release];
+	[_textLabel release];
+	[super dealloc];
 }
 
 

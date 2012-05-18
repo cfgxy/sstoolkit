@@ -41,12 +41,13 @@
 		[copy removeObjectAtIndex:index];
 	}
 	
+	[copy release];
 	return array;
 }
 
 
 - (NSMutableArray *)deepMutableCopy {
-	return (__bridge_transfer NSMutableArray *)CFPropertyListCreateDeepCopy(kCFAllocatorDefault, (__bridge CFArrayRef)self, kCFPropertyListMutableContainers);
+	return (NSMutableArray *)CFPropertyListCreateDeepCopy(kCFAllocatorDefault, (CFArrayRef)self, kCFPropertyListMutableContainers);
 }
 
 

@@ -20,26 +20,49 @@
 
 
 - (void)setTopBorderColor:(UIColor *)topBorderColor {
+	[topBorderColor retain];
+	[_topBorderColor release];
 	_topBorderColor = topBorderColor;
+	
 	[self setNeedsDisplay];
 }
 
 
 - (void)setTopInsetColor:(UIColor *)topInsetColor {
+	[topInsetColor retain];
+	[_topInsetColor release];
 	_topInsetColor = topInsetColor;
+	
 	[self setNeedsDisplay];
 }
 
 
 - (void)setBottomInsetColor:(UIColor *)bottomInsetColor {
-	_bottomInsetColor = bottomInsetColor;	
+	[bottomInsetColor retain];
+	[_bottomInsetColor release];
+	_bottomInsetColor = bottomInsetColor;
+	
 	[self setNeedsDisplay];
 }
 
 
 - (void)setBottomBorderColor:(UIColor *)bottomBorderColor {
-	_bottomBorderColor = bottomBorderColor;	
+	[bottomBorderColor retain];
+	[_bottomBorderColor release];
+	_bottomBorderColor = bottomBorderColor;
+	
 	[self setNeedsDisplay];
+}
+
+
+#pragma mark - NSObject
+
+- (void)dealloc {
+	[_topBorderColor release];
+	[_topInsetColor release];
+	[_bottomInsetColor release];
+	[_bottomBorderColor release];
+	[super dealloc];
 }
 
 

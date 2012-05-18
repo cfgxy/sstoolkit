@@ -20,26 +20,45 @@
 @synthesize dashLengths = _dashLengths;
 
 - (void)setLineColor:(UIColor *)lineColor {
+	[lineColor retain];
+	[_lineColor release];
 	_lineColor = lineColor;
+	
 	[self setNeedsDisplay];
 }
 
 
 - (void)setInsetColor:(UIColor *)insetColor {
-	_insetColor = insetColor;	
+	[insetColor retain];
+	[_insetColor release];
+	_insetColor = insetColor;
+	
 	[self setNeedsDisplay];
 }
 
 
 - (void)setDashPhase:(CGFloat)dashPhase {
 	_dashPhase = dashPhase;
+	
 	[self setNeedsDisplay];
 }
 
 
 - (void)setDashLengths:(NSArray *)dashLengths {
+	[_dashLengths autorelease];
 	_dashLengths = [dashLengths copy];
+	
 	[self setNeedsDisplay];
+}
+
+
+#pragma mark - NSObject
+
+- (void)dealloc {
+	[_lineColor release];
+	[_insetColor release];
+	[_dashLengths release];
+	[super dealloc];
 }
 
 

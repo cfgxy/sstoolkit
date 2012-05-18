@@ -44,7 +44,9 @@
 #pragma mark - UIViewController
 
 - (void)loadView {
-	self.view = [[SSRatingPickerScrollView alloc] initWithFrame:CGRectZero];
+	SSRatingPickerScrollView *scrollView = [[SSRatingPickerScrollView alloc] initWithFrame:CGRectZero];
+	self.view = scrollView;
+	[scrollView release];
 }
 
 

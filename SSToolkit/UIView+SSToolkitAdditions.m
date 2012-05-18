@@ -31,28 +31,31 @@
 
 
 - (void)fadeOut {
-	UIView *view = self;
+	UIView *view = [self retain];
 	[UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
 		view.alpha = 0.0f;
 	} completion:nil];
+	[view autorelease];
 }
 
 
 - (void)fadeOutAndRemoveFromSuperview {
-	UIView *view = self;
+	UIView *view = [self retain];
 	[UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
 		view.alpha = 0.0f;
 	} completion:^(BOOL finished) {
 		[view removeFromSuperview];
 	}];
+	[view autorelease];
 }
 
 
 - (void)fadeIn {
-	UIView *view = self;
+	UIView *view = [self retain];
 	[UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
 		view.alpha = 1.0f;
 	} completion:nil];
+	[view autorelease];
 }
 
 
@@ -71,7 +74,7 @@
 		view = superview;
 	}
 	
-	return superviews;
+	return [superviews autorelease];
 }
 
 

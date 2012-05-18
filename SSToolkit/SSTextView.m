@@ -36,7 +36,9 @@
 		return;
 	}
 	
-	_placeholder = string;
+	[_placeholder release];
+	_placeholder = [string retain];
+	
 	[self _updateShouldDrawPlaceholder];
 }
 
@@ -45,6 +47,10 @@
 
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:UITextViewTextDidChangeNotification object:self];
+	
+	[_placeholder release];
+	[_placeholderColor release];
+	[super dealloc];
 }
 
 
